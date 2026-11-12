@@ -1,0 +1,6 @@
+{
+  "name": "analise-federal-mycon",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" }
+}

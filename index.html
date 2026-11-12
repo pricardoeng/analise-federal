@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análise Federal · Assembleias Mycon</title>
+<meta name="description" content="Resultado da Loteria Federal com cota sorteada, fila de suplência e lance fixo para as assembleias Mycon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<style>
+:root{--azul:#2f6bff;--verde:#c6ff3d;--fundo:#0b1a3d;--card:#122554;--cel:#1b3570;--txt2:#b8c4e0;
+  --bg:#f5f7fb;--branco:#fff;--borda:#e3e8f2;--tx:#0b1a3d;--tx2:#5b6785;--hl:#ffb020}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--tx)}
+.app{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
+aside{background:var(--branco);border-right:1px solid var(--borda);padding:26px 22px;position:sticky;top:0;height:100vh;overflow:auto}
+aside h3{font-size:15px;font-weight:800;margin:22px 0 10px;display:flex;gap:8px;align-items:center}
+aside h3:first-child{margin-top:0}
+.marca{font-weight:900;font-size:18px;margin-bottom:20px}.marca span{color:var(--azul)}
+label{display:block;font-size:13px;color:var(--tx2);font-weight:600;margin:10px 0 5px}
+input{width:100%;font:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--borda);border-radius:10px;background:#f9fafc;color:var(--tx)}
+input:focus{outline:2px solid var(--azul);outline-offset:-1px;background:#fff}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:11px 14px;font-weight:700;font-size:14px}
+.btn{background:var(--azul);color:#fff;width:100%;margin-top:12px}
+.btn:hover{filter:brightness(1.08)}
+.btn2{background:#fff;color:var(--tx);border:1px solid var(--borda)}
+details{border:1px solid var(--borda);border-radius:10px;padding:10px 12px;margin-top:12px}
+summary{cursor:pointer;font-size:14px;font-weight:600}
+.dica{font-size:12px;color:var(--tx2);margin-top:6px;line-height:1.4}
+main{padding:26px 32px 40px;max-width:1240px;width:100%;min-width:0}
+.hero{background:linear-gradient(135deg,#0b1a3d 0%,#16306b 100%);border-radius:18px;padding:26px 30px;color:#fff;margin-bottom:16px}
+.tag{display:inline-block;background:var(--verde);color:var(--fundo);font-weight:800;font-size:12px;letter-spacing:.06em;padding:5px 12px;border-radius:6px}
+.hero h1{font-size:34px;font-weight:900;margin-top:10px}
+.hero h2{color:var(--verde);font-size:26px;font-weight:800;margin:2px 0 6px}
+.hero p{color:#c4cee6;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:14px 16px}
+.kpi span{display:block;color:var(--tx2);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.kpi b{font-size:26px}
+.premios{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.premio{background:var(--fundo);border-radius:12px;padding:12px 8px;text-align:center;color:#fff}
+.premio span{display:block;color:var(--txt2);font-size:12px;font-weight:700}
+.premio b{font-size:26px;letter-spacing:1px}
+h4{font-size:20px;font-weight:800;margin:6px 0 10px}
+.minhas{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-bottom:18px}
+.minha{border-radius:12px;padding:12px 14px;border:1px solid var(--borda);background:#fff}
+.minha.ok{border-color:var(--hl);background:#fff8e8}
+.minha b{font-size:19px}.minha div{font-size:13px;color:#3d4866;margin-top:3px}
+.abas{display:flex;gap:4px;border-bottom:1px solid var(--borda);margin-bottom:14px;overflow-x:auto}
+.aba{background:none;color:var(--tx2);border-radius:0;padding:10px 12px;border-bottom:2px solid transparent;white-space:nowrap;font-weight:600}
+.aba.ativa{color:var(--azul);border-bottom-color:var(--azul)}
+.sec{background:var(--card);border-radius:16px;padding:18px 18px 20px;color:#fff}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sec-h b{color:var(--verde);font-size:17px}.sec-h small{color:var(--txt2)}
+.sorteada{background:var(--azul);border-radius:12px;display:flex;align-items:center;gap:26px;padding:14px 22px}
+.sorteada .l{font-weight:800;font-size:13px;line-height:1.3;letter-spacing:.05em}
+.sorteada .n{font-size:54px;font-weight:900;line-height:1}
+.sorteada .d{font-size:13px;color:#eaf0ff}
+.lbl{color:var(--verde);font-weight:700;font-size:13px;margin:16px 0 8px}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px}
+.cel{background:var(--cel);border-radius:8px;text-align:center;padding:5px 0 7px}
+.cel span{display:block;color:var(--txt2);font-size:11px;font-weight:700}
+.cel b{font-size:22px;font-weight:800}
+.cel.v{background:#2d5a1e}.cel.v b{color:var(--verde)}
+.cel.hl{outline:3px solid var(--hl);outline-offset:-3px;background:#5a3d00}.cel.hl b{color:#ffd27a}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--borda);border-radius:12px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--borda)}
+th{background:#f3f5fa;color:var(--tx2);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+td.mono{font-variant-numeric:tabular-nums;letter-spacing:.12em}
+.regra{background:#fff;border:1px solid var(--borda);border-radius:12px;padding:14px 16px;margin-bottom:12px;font-size:14px;line-height:1.55}
+.acoes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.preview{width:100%;overflow:hidden;border-radius:12px;background:#0b1a3d}
+.preview-in{transform-origin:top left}
+.msg{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:18px 20px;color:var(--tx2)}
+.msg.erro{border-color:#f3b4b4;background:#fff5f5;color:#8a1f1f}
+.carregando{opacity:.5;pointer-events:none}
+.oculto{display:none}
+.rodape-app{margin-top:28px;font-size:12px;color:var(--tx2)}
+/* ---------- card de divulgação (largura fixa 1140) ---------- */
+.card{width:1140px;padding:26px 26px 18px;background:#0b1a3d;color:#fff;font-family:Inter,"Segoe UI",Arial,sans-serif}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start}
+.card .ctag{background:#c6ff3d;color:#0b1a3d;font-weight:800;font-size:19px;padding:10px 80px}
+.card .cdata{color:#a9b8d8;font-weight:700;font-size:20px;margin-top:12px}
+.card h1{font-size:50px;font-weight:900;margin-top:18px}
+.card h2{font-size:50px;font-weight:900;color:#c6ff3d;margin-top:2px}
+.card .sub{color:#c4cee6;font-size:18px;margin:6px 0 26px}
+.card .cpremios{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.card .cpremio{background:#152b5e;text-align:center;padding:8px 0 10px}
+.card .cpremio span{display:block;color:#b8c4e0;font-size:15px;font-weight:700}
+.card .cpremio b{font-size:31px;letter-spacing:1px}
+.card .bloco{background:#122554;margin-top:26px;padding:0 0 14px}
+.card .bh{display:flex;justify-content:space-between;align-items:center;padding:20px 4px 16px}
+.card .bh h3{color:#c6ff3d;font-size:21px;font-weight:800}
+.card .bh small{color:#a9b8d8;font-size:15px}
+.card .csort{background:#2f6bff;display:grid;grid-template-columns:270px 270px 1fr;align-items:center;min-height:92px}
+.card .csort .l{text-align:center;font-weight:800;font-size:17px;line-height:1.5}
+.card .csort .n{text-align:center;font-size:62px;font-weight:900}
+.card .csort .d{font-size:15px;color:#eaf0ff;padding-right:20px}
+.card .clbl{color:#c6ff3d;font-weight:700;font-size:15px;padding:18px 4px 8px}
+.card .cgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.card .cgrid9{grid-template-columns:repeat(9,1fr)}
+.card .ccel{background:#1b3570;text-align:center;padding:4px 0 6px}
+.card .ccel span{display:block;color:#b8c4e0;font-size:13px;font-weight:700}
+.card .ccel b{font-size:27px;font-weight:800}
+.card .cv{background:#2d5a1e}.card .cv b{color:#c6ff3d}
+.card .rod{display:grid;grid-template-columns:2fr 1fr;gap:28px;margin-top:22px}
+.card .rod.so{grid-template-columns:1fr}
+.card .rod .a{background:#c6ff3d;color:#0b1a3d;padding:14px 8px}
+.card .rod .a b{font-size:29px;font-weight:900;display:block}
+.card .rod .a span{font-size:17px;font-weight:700}
+.card .rod .b{background:#2f6bff;text-align:center;padding:14px 0}
+.card .rod .b b{font-size:29px;display:block}.card .rod .b span{font-size:14px}
+.card .fonte{color:#8fa0c4;font-size:13px;margin-top:10px}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)} aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--borda)}
+  main{padding:18px 16px 32px} .kpis{grid-template-columns:repeat(2,1fr)} .premios{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:26px}.hero h2{font-size:20px}.sorteada{gap:14px}.sorteada .n{font-size:40px}
+  table{font-size:12px} th,td{padding:8px 6px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="marca">Análise <span>Federal</span></div>
+  <h3>📅 Sorteio</h3>
+  <label for="data">Data da Loteria Federal</label>
+  <input type="date" id="data">
+  <div class="dica">A Federal sorteia às quartas e aos sábados.</div>
+  <button class="btn" id="analisar">Analisar</button>
+  <details>
+    <summary>Digitar os prêmios na mão</summary>
+    <label for="manual">5 prêmios</label>
+    <input id="manual" placeholder="47376 32229 31114 59504 16594">
+    <div class="dica">Use se o site da Caixa estiver fora do ar.</div>
+  </details>
+  <h3>🔎 Minhas cotas</h3>
+  <label for="cotas">Destacar cotas</label>
+  <input id="cotas" placeholder="ex.: 623, 663">
+  <div class="dica">Aparecem destacadas em laranja na análise.</div>
+  <details>
+    <summary>⚙️ Personalizar card</summary>
+    <div id="cfg-campos"></div>
+  </details>
+  <div class="rodape-app">Fonte: loterias.caixa.gov.br · conteúdo informativo.</div>
+</aside>
+
+<main id="main">
+  <div class="msg">Escolha a data do sorteio e clique em <b>Analisar</b>.</div>
+</main>
+</div>
+
+<script>
+// ===================================================== configuração
+const CONFIG_PADRAO = {
+  assembleia_dias_inicio: 1, assembleia_dias_fim: 5, qtd_lance_fixo: 15,
+  milhar_limite_2000: 8000, exemplo_grupo_2000: "2098",
+  subtitulo: "Base para alguns grupos de Imóvel e Auto · confira a data da sua assembleia no app",
+  rodape_chamada: "Foi contemplado? Compro sua cota.",
+  rodape_nome: "Clériston Barbosa · Especialista em Consórcios",
+  rodape_telefone: "(61) 98235-2353",
+  rodape_telefone_legenda: "WhatsApp · resposta rápida",
+  rodape_fonte: "Fonte: loterias.caixa.gov.br · Conteúdo informativo independente, sem vínculo com a administradora · Lance fixo exige lance registrado.",
+};
+const CAMPOS_CFG = [
+  ["rodape_chamada", "Chamada"], ["rodape_nome", "Nome"], ["rodape_telefone", "Telefone (vazio = sem bloco)"],
+  ["rodape_telefone_legenda", "Legenda do telefone"], ["rodape_fonte", "Texto da fonte"], ["subtitulo", "Subtítulo"],
+  ["milhar_limite_2000", "Grupos 2.000: descartar milhares a partir de"],
+];
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+let CFG = Object.assign({}, CONFIG_PADRAO, lsGet("cfg", {}));
+
+// ===================================================== regras (regulamento Mycon)
+const cotaCentena = (c) => (+c === 0 ? 1000 : +c);
+const cotaMilhar = (m) => { const n = +m % 2000; return n === 0 ? 2000 : n; };
+function lanceFixo(s, total, qtd) {
+  const out = []; let k = 1;
+  while (out.length < qtd) { for (const d of [k, -k]) if (out.length < qtd) out.push(((s - 1 + d) % total + total) % total + 1); k++; }
+  return out;
+}
+function apurar1000(premios) {
+  const vistos = new Set(), fila = [];
+  for (const p of premios) for (const c of [p.slice(2, 5), p.slice(1, 4), p.slice(0, 3)]) {
+    const cota = cotaCentena(c);
+    if (!vistos.has(cota)) { vistos.add(cota); fila.push({ centena: c, cota }); }
+  }
+  const sorteada = fila[0].cota;
+  return { sorteada, fila: fila.slice(1), lance: lanceFixo(sorteada, 1000, CFG.qtd_lance_fixo) };
+}
+function apurar2000(premios) {
+  const vistos = new Set(), val = [];
+  for (const p of premios) for (const m of [p.slice(1, 5), p.slice(0, 4)]) {
+    if (+m >= +CFG.milhar_limite_2000) continue;
+    const cota = cotaMilhar(m);
+    if (!vistos.has(cota)) { vistos.add(cota); val.push({ milhar: m, cota }); }
+  }
+  const s = val[0];
+  return { sorteada: s.cota, milhar_sorteada: s.milhar, fila: val.slice(1), lance: lanceFixo(s.cota, 2000, CFG.qtd_lance_fixo) };
+}
+function analisar(premios, data) {
+  const addDias = (n) => { const d = new Date(data); d.setUTCDate(d.getUTCDate() + n); return d; };
+  return { premios, data, ini: addDias(CFG.assembleia_dias_inicio), fim: addDias(CFG.assembleia_dias_fim),
+           g1: apurar1000(premios), g2: apurar2000(premios) };
+}
+
+// ===================================================== utilidades
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const p2 = (n) => String(n).padStart(2, "0");
+const ddmm = (d) => `${p2(d.getUTCDate())}/${p2(d.getUTCMonth() + 1)}`;
+const ddmmaaaa = (d) => `${ddmm(d)}/${d.getUTCFullYear()}`;
+const c3 = (n) => String(n).padStart(3, "0");
+const iso = (d) => `${d.getUTCFullYear()}-${p2(d.getUTCMonth() + 1)}-${p2(d.getUTCDate())}`;
+function ultimoDiaSorteio() {
+  const h = new Date(); let d = new Date(Date.UTC(h.getFullYear(), h.getMonth(), h.getDate()));
+  while (![3, 6].includes(d.getUTCDay())) d.setUTCDate(d.getUTCDate() - 1);
+  return d;
+}
+const destaque = () => new Set(($("#cotas").value.match(/\d+/g) || []).map(Number));
+
+// ===================================================== telas
+function grade(itens, hl, verde) {
+  return `<div class="grade">${itens.map(([rot, val, cota]) =>
+    `<div class="cel${verde ? " v" : ""}${hl.has(cota) ? " hl" : ""}"><span>${esc(rot)}</span><b>${val}</b></div>`).join("")}</div>`;
+}
+function secao(t, sub, sorteada, desc, fila, lance) {
+  return `<div class="sec"><div class="sec-h"><b>${t}</b><small>${esc(sub)}</small></div>
+    <div class="sorteada"><div class="l">COTA<br>SORTEADA</div><div class="n">${sorteada}</div><div class="d">${desc}</div></div>
+    <div class="lbl">FILA DE SUPLÊNCIA · se a sorteada não estiver apta, a vez passa para a próxima</div>${fila}
+    <div class="lbl">LANCE FIXO · ordem de proximidade: 1 acima, 1 abaixo da sorteada</div>${lance}</div>`;
+}
+function ondeAparece(c, a) {
+  const r = [];
+  const f1 = [a.g1.sorteada, ...a.g1.fila.map((x) => x.cota)], f2 = [a.g2.sorteada, ...a.g2.fila.map((x) => x.cota)];
+  if (c <= 1000) {
+    const i = f1.indexOf(c); if (i === 0) r.push("🎯 <b>Cota sorteada</b> (até 1.000)"); else if (i > 0) r.push(`Fila de suplência: <b>${i + 1}º</b> (até 1.000)`);
+    const l = a.g1.lance.indexOf(c); if (l >= 0) r.push(`Lance fixo: <b>${l + 1}º</b> (até 1.000)`);
+  }
+  if (c <= 2000) {
+    const i = f2.indexOf(c); if (i === 0) r.push("🎯 <b>Cota sorteada</b> (2.000)"); else if (i > 0) r.push(`Fila de suplência: <b>${i + 1}º</b> (2.000)`);
+    const l = a.g2.lance.indexOf(c); if (l >= 0) r.push(`Lance fixo: <b>${l + 1}º</b> (2.000)`);
+  }
+  return r;
+}
+function cardHTML(a) {
+  const o = (n) => `${n}º`;
+  const tel = String(CFG.rodape_telefone || "").trim();
+  return `<div class="card" id="card">
+  <div class="top"><div class="ctag">RESULTADO · LOTERIA FEDERAL</div><div class="cdata">Sorteio de ${ddmmaaaa(a.data)}</div></div>
+  <h1>Assembleias Mycon</h1><h2>${ddmm(a.ini)} a ${ddmmaaaa(a.fim)}</h2><div class="sub">${esc(CFG.subtitulo)}</div>
+  <div class="cpremios">${a.premios.map((p, i) => `<div class="cpremio"><span>${i + 1}º prêmio</span><b>${p}</b></div>`).join("")}</div>
+  <div class="bloco"><div class="bh"><h3>GRUPOS ATÉ 1.000 COTAS</h3><small>apuração por centena</small></div>
+    <div class="csort"><div class="l">COTA<br>SORTEADA</div><div class="n">${c3(a.g1.sorteada)}</div><div class="d">Vale para os grupos com até 1.000 cotas.</div></div>
+    <div class="clbl">FILA DE SUPLÊNCIA &nbsp;·&nbsp; se a sorteada não estiver apta, a vez passa para a próxima</div>
+    <div class="cgrid">${a.g1.fila.map((x, i) => `<div class="ccel"><span>${o(i + 2)}</span><b>${x.centena}</b></div>`).join("")}</div>
+    <div class="clbl">LANCE FIXO &nbsp;·&nbsp; ordem de proximidade: 1 acima, 1 abaixo da sorteada</div>
+    <div class="cgrid">${a.g1.lance.map((c, i) => `<div class="ccel cv"><span>${o(i + 1)}</span><b>${c3(c)}</b></div>`).join("")}</div></div>
+  <div class="bloco"><div class="bh"><h3>GRUPOS DE 2.000 COTAS</h3><small>ex.: grupo ${esc(CFG.exemplo_grupo_2000)} · apuração por milhar</small></div>
+    <div class="csort"><div class="l">COTA<br>SORTEADA</div><div class="n">${a.g2.sorteada}</div><div class="d">Milhar ${a.g2.milhar_sorteada} → cota ${a.g2.sorteada}. Cada cota concorre também por +2000, +4000... (milhares equivalentes).</div></div>
+    <div class="clbl">FILA DE SUPLÊNCIA &nbsp;·&nbsp; posição · milhar sorteada → cota do grupo (milhares fora do grupo são descartadas)</div>
+    <div class="cgrid cgrid9">${a.g2.fila.map((x, i) => `<div class="ccel"><span>${o(i + 2)} · ${x.milhar}</span><b>${x.cota}</b></div>`).join("")}</div>
+    <div class="clbl">LANCE FIXO &nbsp;·&nbsp; ordem de proximidade: 1 acima, 1 abaixo da sorteada</div>
+    <div class="cgrid">${a.g2.lance.map((c, i) => `<div class="ccel cv"><span>${o(i + 1)}</span><b>${c}</b></div>`).join("")}</div></div>
+  <div class="rod${tel ? "" : " so"}"><div class="a"><b>${esc(CFG.rodape_chamada)}</b><span>${esc(CFG.rodape_nome)}</span></div>
+    ${tel ? `<div class="b"><b>${esc(tel)}</b><span>${esc(CFG.rodape_telefone_legenda)}</span></div>` : ""}</div>
+  <div class="fonte">${esc(CFG.rodape_fonte)}</div></div>`;
+}
+
+let ATUAL = null, ABA = lsGet("aba", "g1");
+function render() {
+  if (!ATUAL) return;
+  const { a, concurso } = ATUAL, hl = destaque();
+  let minhas = "";
+  if (hl.size) {
+    minhas = `<h4>Minhas cotas</h4><div class="minhas">${[...hl].sort((x, y) => x - y).map((c) => {
+      const r = ondeAparece(c, a);
+      return `<div class="minha${r.length ? " ok" : ""}"><b>Cota ${c3(c)}</b>${r.length ? r.map((x) => `<div>${x}</div>`).join("") : "<div>Não aparece na fila nem no lance fixo.</div>"}</div>`;
+    }).join("")}</div>`;
+  }
+  const abas = [["g1", "Grupos até 1.000 cotas"], ["g2", "Grupos de 2.000 cotas"], ["seq", "Sequência das centenas"], ["card", "Card para divulgação"]];
+  let corpo = "";
+  if (ABA === "g1") {
+    corpo = secao("GRUPOS ATÉ 1.000 COTAS", "apuração por centena", c3(a.g1.sorteada), "Vale para os grupos com até 1.000 cotas.",
+      grade(a.g1.fila.map((x, i) => [`${i + 2}º`, x.centena, x.cota]), hl),
+      grade(a.g1.lance.map((c, i) => [`${i + 1}º`, c3(c), c]), hl, true));
+  } else if (ABA === "g2") {
+    corpo = secao("GRUPOS DE 2.000 COTAS", `ex.: grupo ${CFG.exemplo_grupo_2000} · apuração por milhar`, a.g2.sorteada,
+      `Milhar ${a.g2.milhar_sorteada} → cota ${a.g2.sorteada}. Cada cota concorre também por +2000, +4000... (milhares equivalentes).`,
+      grade(a.g2.fila.map((x, i) => [`${i + 2}º · ${x.milhar}`, x.cota, x.cota]), hl),
+      grade(a.g2.lance.map((c, i) => [`${i + 1}º`, c, c]), hl, true));
+  } else if (ABA === "seq") {
+    const ordem = [a.g1.sorteada, ...a.g1.fila.map((x) => x.cota)];
+    corpo = `<div class="regra">De cada prêmio saem 3 centenas, nesta ordem: os <b>3 últimos números</b>, depois <b>do 2º ao 4º</b>
+      e por fim os <b>3 primeiros</b> (ex.: 20.146 → 146, 014, 201). A centena 000 vale como cota 1000.</div>
+      <div style="overflow-x:auto"><table><thead><tr><th>Prêmio</th><th>Número</th><th>Dígitos</th><th>1ª centena</th><th>2ª centena</th><th>3ª centena</th><th>Posições na fila</th></tr></thead><tbody>
+      ${a.premios.map((p, i) => { const cs = [p.slice(2, 5), p.slice(1, 4), p.slice(0, 3)];
+        return `<tr><td>${i + 1}º</td><td>${p.slice(0, 2)}.${p.slice(2)}</td><td class="mono">${p.split("").join(" ")}</td>
+          ${cs.map((c) => `<td>${c}</td>`).join("")}<td>${cs.map((c) => `${ordem.indexOf(cotaCentena(c)) + 1}º`).join(", ")}</td></tr>`; }).join("")}
+      </tbody></table></div>`;
+  } else {
+    corpo = `<div class="acoes"><button class="btn" style="margin:0" id="baixar-png">⬇️ Baixar PNG</button>
+      <button class="btn2" id="baixar-html">⬇️ Baixar HTML</button></div>
+      <div class="preview" id="preview"><div class="preview-in" id="preview-in">${cardHTML(a)}</div></div>`;
+  }
+  $("#main").innerHTML = `
+    <div class="hero"><span class="tag">RESULTADO · LOTERIA FEDERAL</span><h1>Assembleias Mycon</h1>
+      <h2>${ddmm(a.ini)} a ${ddmmaaaa(a.fim)}</h2>
+      <p>Sorteio de ${ddmmaaaa(a.data)}${concurso ? ` · concurso ${concurso}` : " · prêmios informados manualmente"}</p></div>
+    <div class="kpis"><div class="kpi"><span>Concurso</span><b>${concurso || "—"}</b></div>
+      <div class="kpi"><span>Data do sorteio</span><b>${ddmmaaaa(a.data)}</b></div>
+      <div class="kpi"><span>Sorteada · até 1.000</span><b>${c3(a.g1.sorteada)}</b></div>
+      <div class="kpi"><span>Sorteada · 2.000</span><b>${a.g2.sorteada}</b></div></div>
+    <div class="premios">${a.premios.map((p, i) => `<div class="premio"><span>${i + 1}º prêmio</span><b>${p}</b></div>`).join("")}</div>
+    ${minhas}
+    <div class="abas">${abas.map(([k, t]) => `<button class="aba${k === ABA ? " ativa" : ""}" data-aba="${k}">${t}</button>`).join("")}</div>
+    ${corpo}`;
+  document.querySelectorAll(".aba").forEach((b) => b.onclick = () => { ABA = b.dataset.aba; lsSet("aba", ABA); render(); });
+  if (ABA === "card") ajustarPreview();
+}
+
+function ajustarPreview() {
+  const box = $("#preview"), inner = $("#preview-in"), card = $("#card");
+  if (!box || !card) return;
+  const fator = box.clientWidth / 1140;
+  inner.style.transform = `scale(${fator})`;
+  box.style.height = card.offsetHeight * fator + "px";
+  const nome = `federal_${iso(ATUAL.a.data)}`;
+  $("#baixar-png").onclick = async (ev) => {
+    const b = ev.currentTarget; b.textContent = "Gerando..."; b.disabled = true;
+    try {
+      await document.fonts.ready;
+      const url = await htmlToImage.toPng(card, { pixelRatio: 2, backgroundColor: "#0b1a3d" });
+      baixar(url, nome + ".png");
+    } catch (e) { alert("Não foi possível gerar o PNG neste navegador. Use o Baixar HTML."); }
+    b.textContent = "⬇️ Baixar PNG"; b.disabled = false;
+  };
+  $("#baixar-html").onclick = () => {
+    const css = [...document.styleSheets].flatMap((s) => { try { return [...s.cssRules].map((r) => r.cssText); } catch { return []; } })
+      .filter((t) => t.startsWith(".card") || t.startsWith(":root")).join("\n");
+    const doc = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>Federal ${ddmmaaaa(ATUAL.a.data)}</title>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+      <style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0b1a3d}${css}</style></head><body>${cardHTML(ATUAL.a)}</body></html>`;
+    baixar(URL.createObjectURL(new Blob([doc], { type: "text/html" })), nome + ".html");
+  };
+}
+function baixar(url, nome) { const l = document.createElement("a"); l.href = url; l.download = nome; document.body.appendChild(l); l.click(); l.remove(); }
+window.addEventListener("resize", () => ABA === "card" && ajustarPreview());
+
+function erro(msg) {
+  $("#main").innerHTML = `<div class="hero"><span class="tag">RESULTADO · LOTERIA FEDERAL</span><h1>Análise de Assembleias</h1>
+    <p>Escolha a data de um sorteio na barra lateral.</p></div><div class="msg erro">${esc(msg)}</div>`;
+}
+
+async function executar() {
+  const manual = ($("#manual").value.replace(/\./g, "").match(/\d+/g) || []);
+  const dataTxt = $("#data").value;
+  const main = $("#main");
+  try {
+    if (manual.length) {
+      if (manual.length !== 5) return erro("Informe exatamente 5 prêmios.");
+      const [y, m, d] = (dataTxt || iso(ultimoDiaSorteio())).split("-").map(Number);
+      const premios = manual.map((n) => n.slice(-5).padStart(5, "0"));
+      ATUAL = { a: analisar(premios, new Date(Date.UTC(y, m - 1, d))), concurso: null };
+    } else {
+      main.classList.add("carregando");
+      const r = await fetch(`/api/federal${dataTxt ? `?data=${dataTxt}` : ""}`);
+      const j = await r.json().catch(() => ({ erro: "Resposta inválida do servidor." }));
+      main.classList.remove("carregando");
+      if (!r.ok) return erro(j.erro || "Erro ao buscar o resultado.");
+      const [d, m, y] = j.data.split("/").map(Number);
+      ATUAL = { a: analisar(j.premios, new Date(Date.UTC(y, m - 1, d))), concurso: j.concurso };
+    }
+    const u = new URL(location); if (dataTxt) u.searchParams.set("data", dataTxt); history.replaceState(null, "", u);
+    render();
+  } catch (e) {
+    main.classList.remove("carregando");
+    erro("Não foi possível consultar a Caixa agora. Tente de novo ou digite os prêmios na mão.");
+  }
+}
+
+// ===================================================== inicialização
+(function init() {
+  const q = new URL(location).searchParams;
+  $("#data").value = q.get("data") || iso(ultimoDiaSorteio());
+  $("#data").max = iso(new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())));
+  $("#cotas").value = q.get("cotas") || lsGet("cotas", "");
+  $("#cfg-campos").innerHTML = CAMPOS_CFG.map(([k, r]) =>
+    `<label for="cfg-${k}">${r}</label><input id="cfg-${k}" data-k="${k}" value="${esc(CFG[k])}">`).join("") +
+    `<button class="btn2" style="width:100%;margin-top:10px" id="cfg-reset">Restaurar padrão</button>`;
+  document.querySelectorAll("#cfg-campos input").forEach((i) => i.oninput = () => {
+    CFG[i.dataset.k] = i.dataset.k === "milhar_limite_2000" ? (+i.value || 10000) : i.value;
+    lsSet("cfg", Object.fromEntries(CAMPOS_CFG.map(([k]) => [k, CFG[k]])));
+    if (ATUAL) { ATUAL.a = analisar(ATUAL.a.premios, ATUAL.a.data); render(); }
+  });
+  $("#cfg-reset").onclick = () => { lsSet("cfg", {}); CFG = Object.assign({}, CONFIG_PADRAO); location.reload(); };
+  $("#cotas").oninput = () => { lsSet("cotas", $("#cotas").value); render(); };
+  $("#analisar").onclick = executar;
+  $("#data").onchange = executar;
+  $("#manual").onkeydown = (e) => e.key === "Enter" && executar();
+  executar();
+})();
+</script>
+</body>
+</html>
