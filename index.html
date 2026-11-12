@@ -104,14 +104,7 @@ td.mono{font-variant-numeric:tabular-nums;letter-spacing:.12em}
 .card .ccel span{display:block;color:#b8c4e0;font-size:13px;font-weight:700}
 .card .ccel b{font-size:27px;font-weight:800}
 .card .cv{background:#2d5a1e}.card .cv b{color:#c6ff3d}
-.card .rod{display:grid;grid-template-columns:2fr 1fr;gap:28px;margin-top:22px}
-.card .rod.so{grid-template-columns:1fr}
-.card .rod .a{background:#c6ff3d;color:#0b1a3d;padding:14px 8px}
-.card .rod .a b{font-size:29px;font-weight:900;display:block}
-.card .rod .a span{font-size:17px;font-weight:700}
-.card .rod .b{background:#2f6bff;text-align:center;padding:14px 0}
-.card .rod .b b{font-size:29px;display:block}.card .rod .b span{font-size:14px}
-.card .fonte{color:#8fa0c4;font-size:13px;margin-top:10px}
+.card .fonte{color:#8fa0c4;font-size:13px;margin-top:16px}
 @media (max-width:900px){
   .app{grid-template-columns:minmax(0,1fr)} aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--borda)}
   main{padding:18px 16px 32px} .kpis{grid-template-columns:repeat(2,1fr)} .premios{grid-template-columns:repeat(2,1fr)}
@@ -157,15 +150,10 @@ const CONFIG_PADRAO = {
   assembleia_dias_inicio: 1, assembleia_dias_fim: 5, qtd_lance_fixo: 15,
   milhar_limite_2000: 8000, exemplo_grupo_2000: "2098",
   subtitulo: "Base para alguns grupos de Imóvel e Auto · confira a data da sua assembleia no app",
-  rodape_chamada: "Foi contemplado? Compro sua cota.",
-  rodape_nome: "Clériston Barbosa · Especialista em Consórcios",
-  rodape_telefone: "(61) 98235-2353",
-  rodape_telefone_legenda: "WhatsApp · resposta rápida",
   rodape_fonte: "Fonte: loterias.caixa.gov.br · Conteúdo informativo independente, sem vínculo com a administradora · Lance fixo exige lance registrado.",
 };
 const CAMPOS_CFG = [
-  ["rodape_chamada", "Chamada"], ["rodape_nome", "Nome"], ["rodape_telefone", "Telefone (vazio = sem bloco)"],
-  ["rodape_telefone_legenda", "Legenda do telefone"], ["rodape_fonte", "Texto da fonte"], ["subtitulo", "Subtítulo"],
+  ["rodape_fonte", "Texto da fonte"], ["subtitulo", "Subtítulo"],
   ["milhar_limite_2000", "Grupos 2.000: descartar milhares a partir de"],
 ];
 const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
@@ -246,7 +234,6 @@ function ondeAparece(c, a) {
 }
 function cardHTML(a) {
   const o = (n) => `${n}º`;
-  const tel = String(CFG.rodape_telefone || "").trim();
   return `<div class="card" id="card">
   <div class="top"><div class="ctag">RESULTADO · LOTERIA FEDERAL</div><div class="cdata">Sorteio de ${ddmmaaaa(a.data)}</div></div>
   <h1>Assembleias Mycon</h1><h2>${ddmm(a.ini)} a ${ddmmaaaa(a.fim)}</h2><div class="sub">${esc(CFG.subtitulo)}</div>
@@ -263,8 +250,6 @@ function cardHTML(a) {
     <div class="cgrid cgrid9">${a.g2.fila.map((x, i) => `<div class="ccel"><span>${o(i + 2)} · ${x.milhar}</span><b>${x.cota}</b></div>`).join("")}</div>
     <div class="clbl">LANCE FIXO &nbsp;·&nbsp; ordem de proximidade: 1 acima, 1 abaixo da sorteada</div>
     <div class="cgrid">${a.g2.lance.map((c, i) => `<div class="ccel cv"><span>${o(i + 1)}</span><b>${c}</b></div>`).join("")}</div></div>
-  <div class="rod${tel ? "" : " so"}"><div class="a"><b>${esc(CFG.rodape_chamada)}</b><span>${esc(CFG.rodape_nome)}</span></div>
-    ${tel ? `<div class="b"><b>${esc(tel)}</b><span>${esc(CFG.rodape_telefone_legenda)}</span></div>` : ""}</div>
   <div class="fonte">${esc(CFG.rodape_fonte)}</div></div>`;
 }
 
